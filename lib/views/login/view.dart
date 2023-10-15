@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'controller.dart';
 
 class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -22,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
           padding: const EdgeInsets.all(16),
           children: [
             Image.network(
-              "https://scontent.fcai19-3.fna.fbcdn.net/v/t39.30808-6/308024750_1291134051629107_1737580409615767305_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=174925&_nc_ohc=Nj2TlAvWCHcAX-a3i9R&_nc_ht=scontent.fcai19-3.fna&oh=00_AfDMTG36jJ_S-DIqypB0ifevzFc7_aYkXTkYINlOHPBXNw&oe=64E7E359",
+              "https://www.aleqt.com/sites/default/files/styles/scale_660/public/rbitem/2022/05/25/1920046-567063107.jpeg?itok=-FS6FuDk",
               height: 50,
             ),
             const SizedBox(

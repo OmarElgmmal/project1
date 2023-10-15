@@ -1,6 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:project1/models/cities.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project1/features/get_cities/cubit.dart';
+import 'package:project1/features/get_cities/states.dart';
+import 'package:project1/features/get_cities/model.dart';
 
 class CitiesSheet extends StatefulWidget {
   const CitiesSheet({super.key});
@@ -10,24 +12,6 @@ class CitiesSheet extends StatefulWidget {
 }
 
 class _CitiesSheetState extends State<CitiesSheet> {
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  bool isLoading = true;
-  late GetCitiesData model;
-
-  void getData() async {
-    final response = await Dio().get(
-      "https://thimar.amr.aait-d.com/api/cities/1",
-    );
-    print(response.data);
-    model = GetCitiesData.fromJson(response.data);
-    isLoading = false;
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +22,37 @@ class _CitiesSheetState extends State<CitiesSheet> {
           const SizedBox(
             height: 16,
           ),
-          Text("اخنر مدينتك",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: Theme.of(context).primaryColor,),),
-          isLoading
-              ? const Expanded(
-                child: Center(
-            child: CircularProgressIndicator(),
-          ),
-              )
-              : Expanded(
-                child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) => _ItemCity(
-                model: model.list[index],
+          Text(
+            "اخنر مدينتك",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).primaryColor,
             ),
-            itemCount: model.list.length,
           ),
-              ),
+          BlocBuilder<GetCitiesCubit,GetCitiesStates>(
+            builder: (context, state) {
+              if (state is GetCitiesLoadingStates) {
+                return const Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else if (state is GetCitiesSuccessStates) {
+                return Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemBuilder: (context, index) => _ItemCity(
+                      model: state.list[index],
+                    ),
+                    itemCount: state.list.length,
+                  ),
+                );
+              } else {
+                return const Text("Failed");
+              }
+            },
+          )
         ],
       ),
     );
@@ -62,13 +61,14 @@ class _CitiesSheetState extends State<CitiesSheet> {
 
 class _ItemCity extends StatelessWidget {
   final CityModel model;
+
   const _ItemCity({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context,model);
+        Navigator.pop(context, model);
       },
       child: Container(
         padding: const EdgeInsets.all(8),
@@ -77,7 +77,11 @@ class _ItemCity extends StatelessWidget {
           borderRadius: BorderRadius.circular(7),
           color: Theme.of(context).primaryColor.withOpacity(.1),
         ),
-        child: Center(child: Text(model.name,),),
+        child: Center(
+          child: Text(
+            model.name,
+          ),
+        ),
       ),
     );
   }

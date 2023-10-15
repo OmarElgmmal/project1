@@ -1,82 +1,119 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'shared/design/app_button.dart';
-import 'shared/logic/helper_methods.dart';
-import 'views/auth/confirm_code/view.dart';
-import 'views/auth/register_thimar/view.dart';
-import 'views/auth/splash/view.dart';
-import 'views/auth/thimar_forgetpassword/view.dart';
-import 'views/auth/thimar_login/view.dart';
-import 'views/auth/thimar_password/view.dart';
-import 'views/input_thimar/view.dart';
-import 'views/notification/view.dart';
-import 'views/tunes_player_app/tune_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project1/shared/logic/cache_helper.dart';
+import 'package:project1/shared/logic/helper_methods.dart';
+import 'package:project1/views/auth/splash/view.dart';
+import 'features/categories/cubit.dart';
+import 'features/get_cities/cubit.dart';
+import 'features/products/cubit.dart';
+import 'features/slider/cubit.dart';
+import 'firebase_options.dart';
+import 'views/button/view.dart';
+import 'views/counter/view.dart';
+import 'views/faves_page/view.dart';
+import 'views/login/view.dart';
+import 'views/login_screen/view.dart';
+import 'views/movies/view.dart';
+import 'views/register/view.dart';
 
-void main() {
+
+void main() async {
+ /* await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ); */
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: getMaterialColor(),
     ),
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: getMaterialColor(),
-          ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SliderCubit()..getData(),
         ),
-        primarySwatch: getMaterialColor(),
-        scaffoldBackgroundColor: Colors.white,
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusDirectional.circular(15),
+        BlocProvider(
+          create: (context) => CategoriesCubit()..getData(),
+        ),
+        BlocProvider(
+          create: (context) => ProductsCubit()..getData(),
+        ),
+        BlocProvider(
+          create: (context) => GetCitiesCubit()..getData(),
+        ),
+      ],
+      child: ScreenUtilInit(
+        designSize: const Size(375,812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey,
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              titleTextStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: getMaterialColor(),
+              ),
             ),
-            fixedSize: const Size.fromHeight(60),
-          ),
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+            primarySwatch: getMaterialColor(),
+            scaffoldBackgroundColor: Colors.white,
+            filledButtonTheme: FilledButtonThemeData(
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(15),
+                ),
+                fixedSize: const Size.fromHeight(60),
+              ),
             ),
-            side: BorderSide(
-              color: getMaterialColor(),
+            outlinedButtonTheme: OutlinedButtonThemeData(
+              style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                side: BorderSide(
+                  color: getMaterialColor(),
+                ),
+              ),
+            ),
+            inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(color: Color(0xffF3F3F3)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(color: Color(0xffF3F3F3)),
+              ),
+              fillColor: Colors.white,
+              filled: true,
             ),
           ),
+          builder: (context, child) =>
+              Directionality(textDirection: TextDirection.rtl, child: child!),
+          home: child,
         ),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(color: Color(0xffF3F3F3)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(color: Color(0xffF3F3F3)),
-          ),
-          fillColor: Colors.white,
-          filled: true,
-        ),
+        child: const MoviesView(),
       ),
-      builder: (context, child) =>
-          Directionality(textDirection: TextDirection.rtl, child: child!),
-      home: const ThimarLogin(),
     );
   }
 }

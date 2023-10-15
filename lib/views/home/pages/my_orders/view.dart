@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InputNotification extends StatelessWidget {
-  const InputNotification({super.key});
+class MyOrdersPage extends StatelessWidget {
+  const MyOrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {

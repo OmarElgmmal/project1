@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:project1/shared/logic/cache_helper.dart';
+import 'package:project1/views/home/view.dart';
 import '../../../shared/logic/helper_methods.dart';
 import '../thimar_login/view.dart';
 
@@ -17,7 +19,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(const Duration(seconds: 5), () {
       toGetNavigate(
-        const ThimarLogin(),
+        CacheHelper.isAuth()? const HomeView():const ThimarLogin(),
       );
     });
   }
