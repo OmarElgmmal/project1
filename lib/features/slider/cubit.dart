@@ -10,7 +10,7 @@ class SliderCubit extends Cubit<SliderStates>{
   Future<void> getData()async{
     emit(GetSliderLoadingStates());
     final response = await DioHelper().getData("sliders");
-    print(response.response!.data);
+;    print(response.response!.data);
     if(response.isSuccess){
       final model = SliderData.fromJson(response.response!.data);
       emit(GetSliderSuccessStates(list: model.list));

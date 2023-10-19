@@ -5,19 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:project1/shared/logic/cache_helper.dart';
 import 'package:project1/shared/logic/helper_methods.dart';
-import 'package:project1/views/auth/splash/view.dart';
 import 'features/categories/cubit.dart';
 import 'features/get_cities/cubit.dart';
 import 'features/products/cubit.dart';
 import 'features/slider/cubit.dart';
 import 'firebase_options.dart';
-import 'views/button/view.dart';
-import 'views/counter/view.dart';
-import 'views/faves_page/view.dart';
-import 'views/login/view.dart';
-import 'views/login_screen/view.dart';
 import 'views/movies/view.dart';
-import 'views/register/view.dart';
 
 
 void main() async {
