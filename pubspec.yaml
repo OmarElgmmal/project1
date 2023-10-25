@@ -56,6 +56,7 @@ dependencies:
   dialogs: ^0.0.7
   firebase_core: ^2.17.0
   math_expressions: ^2.4.0
+  rive: ^0.12.0
 
 
 dev_dependencies:
@@ -87,6 +88,7 @@ flutter:
     - assets/icons/svg/
     - assets/fonts/
     - assets/audio/
+    - assets/login_animation.riv
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

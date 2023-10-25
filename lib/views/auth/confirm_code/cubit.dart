@@ -27,8 +27,7 @@ class ConfirmCodeCubit extends Cubit<ConfirmCodeStates>
   }
 
   void verify({required bool isActive,required String phone}) async {
-    //isLoading = true;
-    //setState(() {});
+
     final response = await DioHelper().sendData("verify", data: {
       "code": codeController.text,
       "type": Platform.operatingSystem,
@@ -46,7 +45,5 @@ class ConfirmCodeCubit extends Cubit<ConfirmCodeStates>
       showMessage(response.message);
     }
     isLoading = false;
-    //setState(() {});
   }
-
 }

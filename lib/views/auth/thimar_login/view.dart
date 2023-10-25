@@ -131,7 +131,7 @@ class _ThimarLoginState extends State<ThimarLogin> {
                         builder: (context, state) {
                           if (state is LoginLoadingStates) {
                             return const Center(
-                                child: CircularProgressIndicator());
+                                child: CircularProgressIndicator(),);
                           } else {
                             return AppButton(
                               text: "تسجيل الدخول",

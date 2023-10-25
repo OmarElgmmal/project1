@@ -10,7 +10,7 @@ import 'features/get_cities/cubit.dart';
 import 'features/products/cubit.dart';
 import 'features/slider/cubit.dart';
 import 'firebase_options.dart';
-import 'views/movies/view.dart';
+import 'views/login_screen_animation/view.dart';
 
 
 void main() async {
@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
               Directionality(textDirection: TextDirection.rtl, child: child!),
           home: child,
         ),
-        child: const MoviesView(),
+        child: const LoginScreenAnimation(),
       ),
     );
   }

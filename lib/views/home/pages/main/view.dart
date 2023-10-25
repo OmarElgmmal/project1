@@ -292,9 +292,8 @@ class _ItemProduct extends StatelessWidget {
 }
 
 class _ItemCategory extends StatelessWidget {
-  const _ItemCategory({super.key, required this.model});
-
   final CategoryModel model;
+  const _ItemCategory({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
